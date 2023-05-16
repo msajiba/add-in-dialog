@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <title>Dialog for My Office Add-in</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- For more information on Office UI Fabric, visit https://developer.microsoft.com/fabric. -->
+    <link rel="stylesheet"
+        href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.1/css/fabric.min.css" />
+
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <script type="text/javascript" src="popup.js"></script>
+</head>
+
+<body style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+    <p class="ms-font-xl">ENTER YOUR NAME</p>
+    <input id="name-box" type="text" /><br /><br />
+    <button id="ok-button" class="ms-Button">OK</button>
+
+
+    <form>
+        <div class="mb-3 row">
+            <label for="inputDate" class="col-sm-2 col-form-label">Date</label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" id="inputDate">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="inputMarchet" class="col-sm-2 col-form-label">Merchant</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputMarchet">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputCategory">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="inputAmount" class="col-sm-2 col-form-label">Amount</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputAmount">
+            </div>
+        </div>
+
+    </form>
+
+</body>
+
+</html>
