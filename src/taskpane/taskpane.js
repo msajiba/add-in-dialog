@@ -17,14 +17,12 @@ Office.onReady((info) => {
 
 let dialog = null;
 
-
 function openDialog() {
   Office.context.ui.displayDialogAsync(
     'https://localhost:3000/popup.html', {
       height: 45,
-      width: 55
+      width: 45,
     },
-
     function (result) {
       dialog = result.value;
       dialog.addEventHandler(Microsoft.Office.WebExtension.EventType.DialogMessageReceived, processMessage);
@@ -32,9 +30,23 @@ function openDialog() {
   );
 }
 
-function processMessage(arg) {
-  document.getElementById("user-name").innerHTML = arg.message;
-  dialog.close();
+export async function processMessage(arg) {
+  Excel.run(async (context) => {
+    try {
+
+      const sheet = context.workbook.worksheets.getActiveWorksheet();
+      sheet.load();
+      await context.sync();
+
+      let expensesTable = sheet.tables.getItem('expensesTable');
+      const value = [arg.message.split(',')];
+      expensesTable.rows.add(null, value);
+      dialog.close();
+      await context.sync();
+    } catch (error) {
+      console.error(error);
+    }
+  })
 }
 
 export async function createTable() {
@@ -48,7 +60,7 @@ export async function createTable() {
         ["Date", "Merchant", "Category", "Amount"]
       ];
 
-      expensesTable.rows.add(null /*add rows to the end of the table*/ , [
+      const data = [
         ["1/1/2017", "The Phone Company", "Communications", "$120"],
         ["1/2/2017", "Northwind Electric Cars", "Transportation", "$142"],
         ["1/5/2017", "Best For You Organics Company", "Groceries", "$27"],
@@ -56,7 +68,9 @@ export async function createTable() {
         ["1/11/2017", "Bellows College", "Education", "$350"],
         ["1/15/2017", "Trey Research", "Other", "$135"],
         ["1/15/2017", "Best For You Organics Company", "Groceries", "$97"]
-      ]);
+      ]
+
+      expensesTable.rows.add(null, data);
 
       if (Office.context.requirements.isSetSupported("ExcelApi", "1.2")) {
         sheet.getUsedRange().format.autofitColumns();
